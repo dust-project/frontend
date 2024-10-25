@@ -4,9 +4,10 @@
 
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  background: #000;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    background: #000;
 }
+
 /*
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
