@@ -11,20 +11,34 @@ export default function ContentGenerator() {
     const [customPrompt, setCustomPrompt] = useState('')
     const [activeContent, setActiveContent] = useState(null)
     const [file, setFile] = useState("");
+    const [bb, setBB] = useState();
 
     const submitHandler = async (e) => {
-        // if (activeTab === 'audiobook') {
-        //     var data = new FormData();
-        //
-        //     data.append("file", file);
-        //
-        //     let res = await fetch("http://localhost:8080/api/pdf", {
-        //         method: "POST",
-        //         body: data
-        //     });
-        //     console.log(res)
-        // }
+
+        if (activeTab === 'audiobook') {
+            var data = new FormData();
+
+            data.append("file", file);
+
+            let res = await fetch("http://localhost:8080/api/pdf", {
+                method: "POST",
+                body: data
+            });
+
+            const blob = await res.blob();
+
+            // Create a URL for the Blob
+            const blobUrl = URL.createObjectURL(blob);
+
+
+            // Create an anchor element
+            alert(blobUrl)
+            setBB(blobUrl)
+
+            // play audio
+        }
     }
+
 
     useEffect(() => {
         const podcastContent = (
@@ -232,6 +246,11 @@ export default function ContentGenerator() {
                         onClick={submitHandler}>
                         GENERATE
                     </button>
+
+                    {bb && <audio controls>
+                        <source src={bb} type="audio/wav" />
+                    </audio>
+                    }
                 </div>
             </div>
         </div>
