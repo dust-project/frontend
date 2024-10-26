@@ -98,10 +98,23 @@ export default function ContentGenerator() {
 
 
             // Create an anchor element
-            alert(blobUrl)
             setBB(blobUrl)
+        } else {
+            var data = new FormData()
+            data.append("topics", topics);
+            data.append("custom_prompt", customPrompt);
+            let res = await fetch("http://localhost:8080/api/pod", {
+                method: "POST",
+                body: data
+            })
+            const blob = await res.blob();
 
-            // play audio
+            // Create a URL for the Blob
+            const blobUrl = URL.createObjectURL(blob);
+
+
+            // Create an anchor element
+            setBB(blobUrl)
         }
     }
 
