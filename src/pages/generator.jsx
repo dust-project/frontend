@@ -1,5 +1,4 @@
 'use client'
-
 import React, { useState, useEffect } from 'react'
 
 export default function ContentGenerator() {
@@ -13,23 +12,19 @@ export default function ContentGenerator() {
     const [activeContent, setActiveContent] = useState(null)
     const [file, setFile] = useState("");
 
-
-
     const submitHandler = async (e) => {
-        if (activeTab === 'audiobook') {
-            var data = new FormData();
-
-            data.append("file", file);
-
-            let res = await fetch("http://localhost:8080/api/pdf", {
-                method: "POST",
-                body: data
-            });
-            console.log(res)
-        }
+        // if (activeTab === 'audiobook') {
+        //     var data = new FormData();
+        //
+        //     data.append("file", file);
+        //
+        //     let res = await fetch("http://localhost:8080/api/pdf", {
+        //         method: "POST",
+        //         body: data
+        //     });
+        //     console.log(res)
+        // }
     }
-
-
 
     useEffect(() => {
         const podcastContent = (
@@ -159,8 +154,8 @@ export default function ContentGenerator() {
                     <div className="inline-flex rounded-lg overflow-hidden shadow-lg">
                         <button
                             className={`px-8 py-3 font-semibold transition-all duration-200 ${activeTab === 'podcast'
-                                    ? 'bg-beige-tan-100 text-beige-tan-400'
-                                    : 'bg-beige-tan-200 text-beige-tan-100 hover:bg-beige-tan-300'
+                                ? 'bg-beige-tan-100 text-beige-tan-400'
+                                : 'bg-beige-tan-200 text-beige-tan-100 hover:bg-beige-tan-300'
                                 }`}
                             onClick={() => setActiveTab('podcast')}
                         >
@@ -168,8 +163,8 @@ export default function ContentGenerator() {
                         </button>
                         <button
                             className={`px-8 py-3 font-semibold transition-all duration-200 ${activeTab === 'audiobook'
-                                    ? 'bg-beige-tan-100 text-beige-tan-400'
-                                    : 'bg-beige-tan-200 text-beige-tan-100 hover:bg-beige-tan-300'
+                                ? 'bg-beige-tan-100 text-beige-tan-400'
+                                : 'bg-beige-tan-200 text-beige-tan-100 hover:bg-beige-tan-300'
                                 }`}
                             onClick={() => setActiveTab('audiobook')}
                         >
@@ -228,14 +223,13 @@ export default function ContentGenerator() {
                                 </div>
                             </div>
                         </div>
-
                         {activeContent}
                     </div>
                 </div>
 
                 <div className="flex justify-center mt-12">
                     <button className="bg-beige-tan-100 text-beige-tan-400 text-xl font-bold px-16 py-4 rounded-xl shadow-lg hover:transform hover:scale-105 transition-all duration-200 hover:shadow-xl"
-                    onClick={() => submitHandler()}>
+                        onClick={submitHandler}>
                         GENERATE
                     </button>
                 </div>
