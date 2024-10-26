@@ -2,7 +2,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ContentGenerator from "@/pages/generator.jsx";
-import Authenticator from './pages/auth.jsx';
+import Error404 from './pages/pagenotfound.jsx'
 
 createRoot(document.getElementById('root')).render(
     // <StrictMode>
@@ -11,8 +11,8 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
 
         <Routes>
-            <Route element={<ContentGenerator />} path={"/generate"} />
-            <Route element={<Authenticator />} path={"/login"} />
+            <Route element=<ContentGenerator /> path={"/generate"} />
+            <Route element=<Error404 /> path={"*"} />
         </Routes>
 
     </BrowserRouter>
