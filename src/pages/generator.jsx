@@ -1,5 +1,7 @@
 'use client'
+
 import React, { useState, useEffect } from 'react'
+
 const audioStyles = `
   /* Custom audio player styling */
   audio {
@@ -65,6 +67,7 @@ export default function ContentGenerator() {
     const [activeContent, setActiveContent] = useState(null)
     const [file, setFile] = useState("");
     const [bb, setBB] = useState();
+
     useEffect(() => {
         // Add the styles to the document
         const styleSheet = document.createElement("style")
@@ -75,6 +78,7 @@ export default function ContentGenerator() {
             document.head.removeChild(styleSheet)
         }
     }, [])
+
     const submitHandler = async (e) => {
 
         if (activeTab === 'audiobook') {
@@ -206,12 +210,12 @@ export default function ContentGenerator() {
     }, [activeTab, topics, newTopic, customPrompt]) // Dependencies that will trigger a re-render
 
 
-    useEffect(() => {
-        setTopics([...topics, file.name])
-    }, [file])
-
     const onFileChange = (e) => {
-        setFile(e.target.files[0])
+        const newFile = e.target.files[0];
+        setFile(newFile);
+        if (newFile && newFile.name) {
+            setTopics([...topics, newFile.name]);
+        }
         // const file =e.target.files[0]
         // if (file) {
         //     if (file.type === 'application/pdf') {
