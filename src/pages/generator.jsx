@@ -102,7 +102,7 @@ export default function ContentGenerator() {
         } else {
             var data = new FormData()
             data.append("topics", topics);
-            data.append("custom_prompt", customPrompt);
+            data.append("custom_prompt", customPrompt.trim());
             let res = await fetch("http://localhost:8080/api/pod", {
                 method: "POST",
                 body: data
