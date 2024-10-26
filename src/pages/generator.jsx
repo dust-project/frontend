@@ -1,6 +1,59 @@
 'use client'
 import React, { useState, useEffect } from 'react'
+const audioStyles = `
+  /* Custom audio player styling */
+  audio {
+    width: 100%;
+    height: 50px;
+    margin-top: 1rem;
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.3);
+  }
 
+  /* Webkit (Chrome, Safari) specific styles */
+  audio::-webkit-media-controls-panel {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 0.75rem;
+  }
+
+  audio::-webkit-media-controls-play-button,
+  audio::-webkit-media-controls-mute-button {
+    background-color: rgba(242, 234, 228, 0.9);
+    border-radius: 50%;
+    color: #8B7355;
+  }
+
+  audio::-webkit-media-controls-current-time-display,
+  audio::-webkit-media-controls-time-remaining-display {
+    color: #8B7355;
+    font-family: system-ui;
+    font-weight: 500;
+  }
+
+  audio::-webkit-media-controls-timeline {
+    background-color: rgba(242, 234, 228, 0.4);
+    border-radius: 0.5rem;
+    margin: 0 0.5rem;
+  }
+
+  audio::-webkit-media-controls-volume-slider {
+    background-color: rgba(242, 234, 228, 0.4);
+    border-radius: 0.5rem;
+    padding: 0 0.25rem;
+  }
+
+  /* Firefox specific styles */
+  audio::-moz-range-track {
+    background-color: rgba(242, 234, 228, 0.4);
+    border-radius: 0.5rem;
+  }
+
+  audio::-moz-range-thumb {
+    background-color: rgba(242, 234, 228, 0.9);
+    border: none;
+    border-radius: 50%;
+  }
+`
 export default function ContentGenerator() {
     const [activeTab, setActiveTab] = useState('audiobook')
     const [level, setLevel] = useState('beginner')
@@ -12,7 +65,16 @@ export default function ContentGenerator() {
     const [activeContent, setActiveContent] = useState(null)
     const [file, setFile] = useState("");
     const [bb, setBB] = useState();
+    useEffect(() => {
+        // Add the styles to the document
+        const styleSheet = document.createElement("style")
+        styleSheet.innerText = audioStyles
+        document.head.appendChild(styleSheet)
 
+        return () => {
+            document.head.removeChild(styleSheet)
+        }
+    }, [])
     const submitHandler = async (e) => {
 
         if (activeTab === 'audiobook') {
@@ -79,6 +141,15 @@ export default function ContentGenerator() {
                         className="w-full bg-white/50 border border-beige-tan-200 rounded-lg p-4 text-beige-tan-100 placeholder-beige-tan-200 font-medium"
                     />
                 </div>
+                {bb && (
+                    <div className="bg-white/30 rounded-xl p-6">
+                        <h2 className="text-2xl font-semibold mb-6 text-beige-tan-100">Generated Audio</h2>
+                        <audio controls>
+                            <source src={bb} type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                )}
             </div>
         )
 
@@ -116,6 +187,15 @@ export default function ContentGenerator() {
                     {topics.length > 0 && (
                         <div className="mt-4 text-sm text-beige-tan-100">
                             Click on a file tag to remove it
+                        </div>
+                    )}
+                    {bb && (
+                        <div className="bg-white/30 rounded-xl p-6">
+                            <h2 className="text-2xl font-semibold mb-6 text-beige-tan-100">Generated Audio</h2>
+                            <audio controls>
+                                <source src={bb} type="audio/wav" />
+                                Your browser does not support the audio element.
+                            </audio>
                         </div>
                     )}
                 </div>
@@ -247,10 +327,6 @@ export default function ContentGenerator() {
                         GENERATE
                     </button>
 
-                    {bb && <audio controls>
-                        <source src={bb} type="audio/wav" />
-                    </audio>
-                    }
                 </div>
             </div>
         </div>
