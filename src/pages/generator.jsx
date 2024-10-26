@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 
 export default function ContentGenerator() {
-    const [activeTab, setActiveTab] = useState('podcast')
+    const [activeTab, setActiveTab] = useState('audiobook')
     const [level, setLevel] = useState('beginner')
     const [topics, setTopics] = useState([])
     const [newTopic, setNewTopic] = useState('')
@@ -11,6 +11,25 @@ export default function ContentGenerator() {
     const [duration, setDuration] = useState(45)
     const [customPrompt, setCustomPrompt] = useState('')
     const [activeContent, setActiveContent] = useState(null)
+    const [file, setFile] = useState("");
+
+
+
+    const submitHandler = async (e) => {
+        if (activeTab === 'audiobook') {
+            var data = new FormData();
+
+            data.append("file", file);
+
+            let res = await fetch("http://localhost:8080/api/pdf", {
+                method: "POST",
+                body: data
+            });
+            console.log(res)
+        }
+    }
+
+
 
     useEffect(() => {
         const podcastContent = (
@@ -97,16 +116,22 @@ export default function ContentGenerator() {
         setActiveContent(activeTab === 'podcast' ? podcastContent : audiobookContent)
     }, [activeTab, topics, newTopic, customPrompt]) // Dependencies that will trigger a re-render
 
+
+    useEffect(() => {
+        setTopics([...topics, file.name])
+    }, [file])
+
     const onFileChange = (e) => {
-        const file = e.target.files[0]
-        if (file) {
-            if (file.type === 'application/pdf') {
-                setTopics([...topics, file.name])
-            } else {
-                alert('Please upload only PDF files')
-            }
-        }
-        e.target.value = ''
+        setFile(e.target.files[0])
+        // const file =e.target.files[0]
+        // if (file) {
+        //     if (file.type === 'application/pdf') {
+        //         setTopics([...topics, file.name])
+        //     } else {
+        //         alert('Please upload only PDF files')
+        //     }
+        // }
+        // e.target.value = ''
     }
 
     const addTopic = (e) => {
@@ -209,7 +234,8 @@ export default function ContentGenerator() {
                 </div>
 
                 <div className="flex justify-center mt-12">
-                    <button className="bg-beige-tan-100 text-beige-tan-400 text-xl font-bold px-16 py-4 rounded-xl shadow-lg hover:transform hover:scale-105 transition-all duration-200 hover:shadow-xl">
+                    <button className="bg-beige-tan-100 text-beige-tan-400 text-xl font-bold px-16 py-4 rounded-xl shadow-lg hover:transform hover:scale-105 transition-all duration-200 hover:shadow-xl"
+                    onClick={() => submitHandler()}>
                         GENERATE
                     </button>
                 </div>
