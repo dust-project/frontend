@@ -11,7 +11,7 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
 
         <Routes>
-            <Route element={<ContentGenerator />} path={"/generate"} />
+            <Route element={<ContentGenerator />} path={"/"} />
             <Route element={<Authenticator />} path={"/login"} />
         </Routes>
 
